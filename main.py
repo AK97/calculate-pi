@@ -1,9 +1,9 @@
 from random import random
-import matplotlib.pyplot as plt
-import numpy as np
-import time
+from numpy.random import random_sample
+from time import perf_counter
 
 def calculatePi(n: int) -> float:
+
     NUM_POINTS = n
 
     # Generate random points in square from [0,0] to [1,1]
@@ -25,13 +25,14 @@ def calculatePi(n: int) -> float:
     return pi
 
 def calculatePiWithNumpy(n: int) -> float:
+
     NUM_POINTS = n
 
     # Generate random points in square from [0,0] to [1,1]
     points = []
 
-    x = np.random.random_sample(size = NUM_POINTS)
-    y = np.random.random_sample(size = NUM_POINTS)
+    x = random_sample(size = NUM_POINTS)
+    y = random_sample(size = NUM_POINTS)
     points = zip(x,y)
 
     # Check if points are within circle
@@ -44,16 +45,21 @@ def calculatePiWithNumpy(n: int) -> float:
 
     return pi
 
-NUM_SAMPLES = 10000000
+def main():
 
-start_time = time.perf_counter()
-pi = calculatePi(NUM_SAMPLES)
-end_time = time.perf_counter()
-print(f"Approximated value of pi: {pi}")
-print(f"Calculated with {NUM_SAMPLES} samples in {end_time-start_time} seconds")
+    NUM_SAMPLES = 10000000
 
-start_time = time.perf_counter()
-pi = calculatePiWithNumpy(NUM_SAMPLES)
-end_time = time.perf_counter()
-print(f"Approximated value of pi: {pi}")
-print(f"Calculated with {NUM_SAMPLES} samples in {end_time-start_time} seconds")
+    start_time = perf_counter()
+    pi = calculatePi(NUM_SAMPLES)
+    end_time = perf_counter()
+    print(f"Approximated value of pi: {pi}")
+    print(f"Calculated with {NUM_SAMPLES} samples in {end_time-start_time} seconds without numpy")
+
+    start_time = perf_counter()
+    pi = calculatePiWithNumpy(NUM_SAMPLES)
+    end_time = perf_counter()
+    print(f"Approximated value of pi: {pi}")
+    print(f"Calculated with {NUM_SAMPLES} samples in {end_time-start_time} seconds with numpy")
+
+if __name__ == "__main__":
+    main()
